@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Ops desk of a sports broadcast operator who builds lean automation tools with Google Apps Script, Sheets, and single-file HTML.">
+  <title>OPS DESK — al1il</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230a0c10'/><circle cx='50' cy='50' r='28' fill='none' stroke='%23f0a020' stroke-width='8'/><circle cx='50' cy='50' r='8' fill='%23f0a020'/></svg>">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main surface</a>
+
+  <header class="topbar" role="banner">
+    <div class="topbar-left">
+      <span class="brand" aria-hidden="true">●</span>
+      <span class="brand-text">OPS DESK</span>
+      <span class="callsign" id="callsign">al1il // broadcast ops</span>
+    </div>
+    <div class="topbar-center" aria-live="polite">
+      <span class="status-pill live" id="onair">ON AIR</span>
+      <span class="clock" id="clock"></span>
+    </div>
+    <div class="topbar-right">
+      <button type="button" class="btn-ghost" id="toggle-motion" aria-pressed="false" title="Toggle motion">Motion</button>
+      <button type="button" class="btn-ghost" id="toggle-theme" aria-pressed="false" title="Toggle theme">Theme</button>
+    </div>
+  </header>
+
+  <main id="main" class="surface">
+    <!-- Identity strip -->
+    <section class="panel identity" aria-labelledby="identity-title">
+      <div class="panel-header">
+        <h1 id="identity-title">Operator</h1>
+        <span class="panel-tag">PRIMARY</span>
+      </div>
+      <div class="panel-body">
+        <p class="lede">
+          I run sports broadcast operations. When the process is slow, fragile, or invisible, I build the smallest tool that makes it reliable.
+        </p>
+        <p>
+          Google Apps Script · Google Sheets · single-file HTML · Cloudflare Workers when the sheet needs a front door.
+          The thread is the same every time: real operational friction → a lean, observable automation that the team can actually run.
+        </p>
+        <div class="identity-meta">
+          <span class="meta-item"><strong>Focus</strong> live match ops, timing, reporting, sync</span>
+          <span class="meta-item"><strong>Stack</strong> Apps Script, Sheets, HTML/JS, D1/Workers</span>
+          <span class="meta-item"><strong>Style</strong> private-first, zero-build, operator-ready</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Channel grid -->
+    <div class="channel-grid" role="list">
+      <!-- Channel 1 -->
+      <article class="panel channel" data-channel="srt" role="listitem" tabindex="0" aria-expanded="false">
+        <div class="panel-header">
+          <div class="channel-id">CH 01</div>
+          <h2>SRT Monitor</h2>
+          <span class="status-dot green" title="Stable"></span>
+        </div>
+        <div class="panel-preview">
+          <p>Match monitoring, Slack alerts, operational reports, and self-diagnostics on Google Sheets + Apps Script.</p>
+        </div>
+        <div class="panel-detail" hidden>
+          <dl>
+            <dt>Problem</dt>
+            <dd>Operators needed continuous visibility into scheduled matches, assignment state, and decoder health without opening dozens of sheets or missing Slack noise.</dd>
+            <dt>Solution</dt>
+            <dd>A modular Apps Script suite (19 deployable files) that cycles monitors, surfaces log viewers, helpdesk UI, decoder finder, and independent permissioned menus. Formula-owned columns stay untouched; secrets stay server-side.</dd>
+            <dt>Tech</dt>
+            <dd>Google Apps Script V8 · Google Sheets · HtmlService single-file UIs · Slack · static pre-deploy checks</dd>
+            <dt>Impact</dt>
+            <dd>One coherent operational surface for monitoring, alerting, and reporting. Versioned bundles, rollback tags, and runbooks so the system can be handed over safely. TODO: quantitative uptime / alert volume once approved for public use.</dd>
+          </dl>
+        </div>
+      </article>
+
+      <!-- Channel 2 -->
+      <article class="panel channel" data-channel="timing" role="listitem" tabindex="0" aria-expanded="false">
+        <div class="panel-header">
+          <div class="channel-id">CH 02</div>
+          <h2>Match Timing</h2>
+          <span class="status-dot green" title="Stable"></span>
+        </div>
+        <div class="panel-preview">
+          <p>Control center for timestamp comparison, divergence analysis, SLA checks, and executive slide decks.</p>
+        </div>
+        <div class="panel-detail" hidden>
+          <dl>
+            <dt>Problem</dt>
+            <dd>QS log timestamps and final approved timestamps drift. Finding which matches, by how much, and whether SLA is at risk required manual spreadsheets and tribal knowledge.</dd>
+            <dt>Solution</dt>
+            <dd>A menu-driven control center with modeless UI: analysis engine, merge workflow, health checks, scoped filters (date, country, competition, shift), and both legacy multi-slide reports and focused gap reports. Optional Slack Block Kit delivery.</dd>
+            <dt>Tech</dt>
+            <dd>Google Apps Script · Sheets · Slides · HtmlService · time-driven triggers</dd>
+            <dt>Impact</dt>
+            <dd>Operators can run analysis + report in one place, investigate missing data, and keep a run history. TODO: measured reduction in investigation time once figures are cleared for public display.</dd>
+          </dl>
+        </div>
+      </article>
+
+      <!-- Channel 3 -->
+      <article class="panel channel" data-channel="report" role="listitem" tabindex="0" aria-expanded="false">
+        <div class="panel-header">
+          <div class="channel-id">CH 03</div>
+          <h2>Ops Report Builder</h2>
+          <span class="status-dot amber" title="Active development"></span>
+        </div>
+        <div class="panel-preview">
+          <p>Daily operational report from acquisition data → PDF + Slack, single-file Apps Script.</p>
+        </div>
+        <div class="panel-detail" hidden>
+          <dl>
+            <dt>Problem</dt>
+            <dd>Daily ops reporting was manual assembly: pull data, shape narrative, export PDF, post to Slack. Fragile under volume and shift changes.</dd>
+            <dt>Solution</dt>
+            <dd>One standalone Apps Script file that snapshots master data (fast path + fallback), rebuilds Ops and Carry-Over views, writes report text, generates PDF, and posts the link. Menu for manual runs and settings. Optional Wyscout relay.</dd>
+            <dt>Tech</dt>
+            <dd>Google Apps Script · Sheets · PDF generation · Slack · time-based triggers</dd>
+            <dt>Impact</dt>
+            <dd>Repeatable daily deliverable with a clear log of stages. Source stays copy-paste deployable—no bundler. TODO: days saved per week / report volume when shareable.</dd>
+          </dl>
+        </div>
+      </article>
+
+      <!-- Channel 4 -->
+      <article class="panel channel" data-channel="sync" role="listitem" tabindex="0" aria-expanded="false">
+        <div class="panel-header">
+          <div class="channel-id">CH 04</div>
+          <h2>Match Sync + Forecast</h2>
+          <span class="status-dot green" title="Stable"></span>
+        </div>
+        <div class="panel-preview">
+          <p>Bookmarklet → Sheets sync, SLA classification, analysis dashboard, and independent forecast studio.</p>
+        </div>
+        <div class="panel-detail" hidden>
+          <dl>
+            <dt>Problem</dt>
+            <dd>Match records lived on external pages. Getting them into the operational sheet, classifying SLA timing, and projecting future load required repeated copy-paste and guesswork.</dd>
+            <dt>Solution</dt>
+            <dd>Browser bookmarklet collects eligible records (timezone-aware), posts to an Apps Script endpoint with batch acknowledgement, rebuilds analysis, and surfaces a dashboard plus a separate Forecast Studio based on historical site/league patterns.</dd>
+            <dt>Tech</dt>
+            <dd>Bookmarklet · Apps Script web app · Sheets · HtmlService dashboard · PDF export</dd>
+            <dt>Impact</dt>
+            <dd>Idempotent sync path and operator-tested baseline. Forecasts are estimates, not guarantees. TODO: sync success rate / volume once cleared.</dd>
+          </dl>
+        </div>
+      </article>
+
+      <!-- Channel 5 -->
+      <article class="panel channel" data-channel="yoyo" role="listitem" tabindex="0" aria-expanded="false">
+        <div class="panel-header">
+          <div class="channel-id">CH 05</div>
+          <h2>Personal Command</h2>
+          <span class="status-dot cyan" title="Personal ops"></span>
+        </div>
+        <div class="panel-preview">
+          <p>Private low-cost command center for projects, tasks, notes, and daily briefing — Cloudflare Worker + D1.</p>
+        </div>
+        <div class="panel-detail" hidden>
+          <dl>
+            <dt>Problem</dt>
+            <dd>Personal project tracking, decisions, and daily notes were scattered. Needed a private, cheap, always-on surface that stays under operator control.</dd>
+            <dt>Solution</dt>
+            <dd>Authenticated Worker (HMAC session) + D1. Projects, tasks, documents, decisions, maintenance, roadmap, daily briefing, focus timer, exports. No third-party script CDNs. Optional read-only GitHub App browsing.</dd>
+            <dt>Tech</dt>
+            <dd>Cloudflare Workers · D1 · vanilla JS modules · HMAC cookies · system fonts</dd>
+            <dt>Impact</dt>
+            <dd>Single private desk for personal ops. Zero-build deploy, explicit safety gates, and a design language that prioritizes legibility over decoration.</dd>
+          </dl>
+        </div>
+      </article>
+    </div>
+
+    <!-- Ticker / log -->
+    <section class="panel ticker" aria-label="Operational notes">
+      <div class="panel-header">
+        <h2>LOG</h2>
+        <span class="panel-tag">LIVE</span>
+      </div>
+      <div class="ticker-track" id="ticker">
+        <div class="ticker-item">Rule: a match without assignment is valid — never treat it as an error.</div>
+        <div class="ticker-item">Secrets stay server-side. No credentials in source, HTML, or logs.</div>
+        <div class="ticker-item">Prefer one-file or small modular Apps Script bundles that can be copy-pasted and version-tagged.</div>
+        <div class="ticker-item">Static pre-deploy checks first; live verification is a separate gate.</div>
+        <div class="ticker-item">Build for the operator who will run it at 02:00, not for the demo slide.</div>
+        <div class="ticker-item">Private by default. Public only when the value is clearly shareable.</div>
+      </div>
+    </section>
+
+    <!-- Contact strip -->
+    <section class="panel contact" aria-labelledby="contact-title">
+      <div class="panel-header">
+        <h2 id="contact-title">Open channel</h2>
+      </div>
+      <div class="panel-body contact-body">
+        <p>Want the same kind of lean automation for live ops? Reach out.</p>
+        <div class="contact-links">
+          <a class="btn" href="https://github.com/al1il" rel="noopener noreferrer" target="_blank">GitHub</a>
+          <span class="contact-note">Email / LinkedIn / photo — TODO (add your preferred public contact)</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>Built as a control surface, not a template.</span>
+    <span>Static · Cloudflare Pages ready · no build step</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
