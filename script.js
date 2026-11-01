@@ -54,35 +54,38 @@
     });
   }
 
-  // Channel expand / collapse
+  // Keep +/− indicator in sync with aria-expanded
+  function setExpanded(ch, expanded) {
+    ch.setAttribute("aria-expanded", expanded ? "true" : "false");
+    const detail = ch.querySelector(".panel-detail");
+    if (detail) detail.hidden = !expanded;
+    const hint = ch.querySelector(".expand-hint");
+    if (hint) hint.textContent = expanded ? "−" : "+";
+  }
+
   function closeAll(except) {
     channels.forEach(function (ch) {
       if (ch === except) return;
-      ch.setAttribute("aria-expanded", "false");
-      const detail = ch.querySelector(".panel-detail");
-      if (detail) detail.hidden = true;
+      setExpanded(ch, false);
     });
   }
 
   function toggleChannel(ch) {
     const expanded = ch.getAttribute("aria-expanded") === "true";
     if (expanded) {
-      ch.setAttribute("aria-expanded", "false");
-      const detail = ch.querySelector(".panel-detail");
-      if (detail) detail.hidden = true;
+      setExpanded(ch, false);
     } else {
       closeAll(ch);
-      ch.setAttribute("aria-expanded", "true");
-      const detail = ch.querySelector(".panel-detail");
-      if (detail) detail.hidden = false;
-      // Bring into view on mobile
-      ch.scrollIntoView({ behavior: document.body.classList.contains("no-motion") ? "auto" : "smooth", block: "nearest" });
+      setExpanded(ch, true);
+      ch.scrollIntoView({
+        behavior: document.body.classList.contains("no-motion") ? "auto" : "smooth",
+        block: "nearest"
+      });
     }
   }
 
   channels.forEach(function (ch) {
     ch.addEventListener("click", function (e) {
-      // Ignore clicks on links inside if any later
       if (e.target.closest("a")) return;
       toggleChannel(ch);
     });
@@ -96,6 +99,14 @@
       }
     });
   });
+
+  // Mobile: auto-open first channel so content is visible without an extra tap
+  function isMobile() {
+    return window.matchMedia("(max-width: 640px)").matches;
+  }
+  if (channels.length && isMobile()) {
+    setExpanded(channels[0], true);
+  }
 
   // Duplicate ticker content for seamless loop when motion is on
   if (ticker && !document.body.classList.contains("no-motion")) {
