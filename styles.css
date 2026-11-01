@@ -292,6 +292,25 @@ body.no-motion .brand {
 .status-dot.cyan { background: var(--cyan); box-shadow: 0 0 6px var(--cyan); }
 .status-dot.red { background: var(--red); }
 
+.expand-hint {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin-left: auto;
+  min-width: 1.2em;
+  text-align: center;
+  line-height: 1;
+  transition: color var(--transition);
+}
+.channel:hover .expand-hint,
+.channel:focus-visible .expand-hint {
+  color: var(--amber);
+}
+.channel[aria-expanded="true"] .expand-hint {
+  color: var(--cyan);
+}
+
 .panel-preview {
   padding: 12px 14px;
   font-size: 0.9rem;
@@ -341,13 +360,18 @@ body.no-motion .brand {
   font-size: 0.8rem;
   color: var(--text-dim);
   white-space: nowrap;
+  width: max-content;
   animation: scroll 48s linear infinite;
 }
 body.no-motion .ticker-track {
   animation: none;
   flex-wrap: wrap;
   white-space: normal;
+  width: auto;
   gap: 8px 24px;
+}
+.ticker-item {
+  flex-shrink: 0;
 }
 .ticker-item::before {
   content: "› ";
@@ -357,6 +381,13 @@ body.no-motion .ticker-track {
 @keyframes scroll {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
+}
+
+@media (max-width: 640px) {
+  .ticker-track {
+    animation-duration: 36s;
+    gap: 28px;
+  }
 }
 
 /* Contact */
